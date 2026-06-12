@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudCore OS - Part 5</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    color:white;
+    background:#0f172a;
+}
+
+/* BACKGROUND LOGO */
+.bg-logo{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:900px;
+    max-width:85vw;
+    opacity:0.05;
+    z-index:-1;
+    pointer-events:none;
+}
+
+/* TOPBAR */
+.topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:42px;
+
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(12px);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 14px;
+
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    z-index:9999;
+}
+
+.logo{
+    font-family:"Pacifico",cursive;
+    font-size:22px;
+}
+
+.clock{
+    font-size:13px;
+    color:#cbd5e1;
+}
+
+/* DESKTOP */
+.desktop{
+    padding-top:70px;
+    padding-left:20px;
+    display:flex;
+    gap:20px;
+}
+
+/* ICON */
+.icon{
+    width:90px;
+    text-align:center;
+    cursor:pointer;
+    padding:10px;
+    border-radius:12px;
+    transition:0.2s;
+}
+
+.icon:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.icon.selected{
+    background:rgba(59,130,246,0.25);
+}
+
+.icon img{
+    width:64px;
+    height:64px;
+    border-radius:14px;
+}
+
+.icon p{
+    font-size:13px;
+    margin-top:5px;
+}
+
+/* WINDOW */
+.window{
+    position:absolute;
+    top:120px;
+    left:200px;
+
+    width:820px;
+    max-width:90%;
+
+    background:rgba(15,23,42,0.92);
+    backdrop-filter:blur(16px);
+
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.12);
+
+    display:none;
+
+    box-shadow:0 0 50px rgba(0,0,0,0.6);
+    overflow:hidden;
+}
+
+/* HEADER */
+.window-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:12px 16px;
+
+    background:rgba(0,0,0,0.25);
+
+    cursor:grab;
+}
+
+.close{
+    width:28px;
+    height:28px;
+    border:none;
+    border-radius:50%;
+    background:#ef4444;
+    color:white;
+    cursor:pointer;
+}
+
+/* APP */
+.app{
+    display:flex;
+    height:420px;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:220px;
+    border-right:1px solid rgba(255,255,255,0.1);
+    padding:10px;
+}
+
+.post{
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:8px;
+    cursor:pointer;
+    background:rgba(255,255,255,0.05);
+    transition:0.2s;
+}
+
+.post:hover{
+    background:rgba(255,255,255,0.1);
+}
+
+/* CONTENT */
+.content{
+    flex:1;
+    padding:20px;
+    overflow-y:auto;
+}
+
+.title{
+    font-family:"Pacifico",cursive;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<img class="bg-logo"
+src="https://i.postimg.cc/LYX21zNC/Cloud-Core.png">
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="logo">CloudCore OS</div>
+    <div class="clock" id="clock"></div>
+</div>
+
+<!-- DESKTOP -->
+<div class="desktop">
+
+    <div class="icon" id="journalIcon" onclick="openApp('journal', this)">
+        <img src="https://i.postimg.cc/LYX21zNC/Cloud-Core.png">
+        <p>Journal</p>
+    </div>
+
+</div>
+
+<!-- WINDOW -->
+<div class="window" id="journal">
+
+    <div class="window-header" id="dragbar">
+        <span>CloudCore Journal</span>
+        <button class="close" onclick="closeApp()">×</button>
+    </div>
+
+    <div class="app">
+
+        <div class="sidebar" id="sidebar"></div>
+
+        <div class="content" id="content">
+            <div class="title">Welcome</div>
+            Select a post.
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* CLOCK */
+function updateClock(){
+    const now = new Date();
+    document.getElementById("clock").innerText =
+        now.toLocaleDateString() + " " +
+        now.toLocaleTimeString();
+}
+setInterval(updateClock,1000);
+updateClock();
+
+/* STATE */
+let activeWindow = null;
+let activeIcon = null;
+let zIndex = 10;
+
+/* OPEN APP */
+function openApp(id, icon){
+
+    let win = document.getElementById(id);
+
+    if(activeWindow){
+        activeWindow.style.display = "none";
+    }
+
+    win.style.display = "block";
+    win.style.zIndex = ++zIndex;
+
+    activeWindow = win;
+
+    if(activeIcon){
+        activeIcon.classList.remove("selected");
+    }
+
+    icon.classList.add("selected");
+    activeIcon = icon;
+}
+
+/* CLOSE APP */
+function closeApp(){
+    if(activeWindow){
+        activeWindow.style.display = "none";
+        activeWindow = null;
+    }
+}
+
+/* DRAG WINDOW */
+let dragging = false;
+let offsetX, offsetY;
+
+const win = document.getElementById("journal");
+const bar = document.getElementById("dragbar");
+
+bar.onmousedown = (e)=>{
+    dragging = true;
+    offsetX = e.clientX - win.offsetLeft;
+    offsetY = e.clientY - win.offsetTop;
+    win.style.zIndex = ++zIndex;
+}
+
+document.onmousemove = (e)=>{
+    if(dragging && activeWindow){
+        activeWindow.style.left = (e.clientX - offsetX) + "px";
+        activeWindow.style.top = (e.clientY - offsetY) + "px";
+    }
+}
+
+document.onmouseup = ()=> dragging = false;
+
+/* POSTS (Part 4 system) */
+const posts = [
+{
+    title:"Welcome",
+    content:"Welcome to CloudCore OS Journal"
+},
+{
+    title:"Part 5",
+    content:"Windows, state system and polish added."
+},
+{
+    title:"Roadmap",
+    content:"Next step: multiple apps system."
+}
+];
+
+const sidebar = document.getElementById("sidebar");
+const content = document.getElementById("content");
+
+function loadPost(i){
+    content.innerHTML = `
+        <div class="title">${posts[i].title}</div>
+        <p>${posts[i].content}</p>
+    `;
+}
+
+/* BUILD SIDEBAR */
+posts.forEach((p,i)=>{
+    const div = document.createElement("div");
+    div.className = "post";
+    div.innerHTML = `<b>${p.title}</b>`;
+    div.onclick = ()=> loadPost(i);
+    sidebar.appendChild(div);
+});
+
+</script>
+
+</body>
+</html>
