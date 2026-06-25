@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CloudCore OS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    height:100vh;
+    overflow:hidden;
+
+    font-family:Arial,sans-serif;
+
+    background-image:
+    url(
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=80"
+    );
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+}
+
+/* TOPBAR */
+
+.topbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:12px 20px;
+
+    background:
+    rgba(0,0,0,0.35);
+
+    backdrop-filter:
+    blur(15px);
+
+    color:white;
+
+    z-index:9999;
+
+}
+
+.logo{
+
+    font-family:
+    "Pacifico",
+    cursive;
+
+    font-size:30px;
+
+}
+
+.clock{
+
+    background:
+    rgba(255,255,255,0.15);
+
+    padding:8px 14px;
+
+    border-radius:999px;
+
+}
+
+/* DESKTOP */
+
+.desktop{
+
+    padding-top:95px;
+    padding-left:25px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+/* ICONS */
+
+.icon{
+
+    width:150px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    color:white;
+
+    transition:.2s;
+
+}
+
+.icon:hover{
+
+    transform:
+    scale(1.08);
+
+}
+
+.icon img{
+
+    width:110px;
+    height:110px;
+
+    display:block;
+
+    margin:auto;
+
+    filter:
+    drop-shadow(
+    0 0 18px rgba(0,0,0,0.7)
+    );
+
+}
+
+.icon p{
+
+    margin-top:10px;
+
+    font-size:17px;
+    font-weight:bold;
+
+    text-shadow:
+    0 0 10px black,
+    0 0 20px black;
+
+}
+
+/* WINDOWS */
+
+.window{
+
+    position:absolute;
+
+    width:760px;
+
+    background:
+    rgba(255,255,255,0.94);
+
+    backdrop-filter:
+    blur(18px);
+
+    border-radius:18px;
+
+    display:none;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,0.35);
+
+}
+
+.window-header{
+
+    padding:12px 15px;
+
+    background:
+    rgba(0,0,0,0.08);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    cursor:move;
+
+}
+
+.window-title{
+
+    font-size:17px;
+    font-weight:bold;
+
+}
+
+.close{
+
+    width:20px;
+    height:20px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#ff5f57;
+
+    cursor:pointer;
+
+}
+
+.window-content{
+
+    padding:20px;
+
+}
+
+/* NOTES */
+
+#notesArea{
+
+    width:100%;
+    height:350px;
+
+    resize:none;
+
+    border:none;
+    outline:none;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#f4f4f4;
+
+    font-size:16px;
+
+}
+
+/* CALCULATOR */
+
+.calc-display{
+
+    width:100%;
+
+    height:60px;
+
+    font-size:28px;
+
+    text-align:right;
+
+    padding:10px;
+
+    margin-bottom:10px;
+
+}
+
+.calc-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:8px;
+
+}
+
+.calc-grid button{
+
+    height:65px;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+/* BROWSER */
+
+.browser-bar{
+
+    display:flex;
+    gap:10px;
+
+    margin-bottom:10px;
+
+}
+
+.browser-bar input{
+
+    flex:1;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+
+}
+
+.browser-bar button{
+
+    padding:12px 18px;
+
+    cursor:pointer;
+
+}
+
+#browserFrame{
+
+    width:100%;
+    height:450px;
+
+    border:none;
+
+    border-radius:12px;
+
+}
+
+/* SETTINGS */
+
+.wallpaper-grid{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.wallpaper{
+
+    width:180px;
+
+    cursor:pointer;
+
+}
+
+.wallpaper img{
+
+    width:100%;
+
+    height:110px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+
+}
+
+/* STORE */
+
+.app-card{
+
+    background:#f5f5f5;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    margin-bottom:12px;
+
+}
+
+.app-card button{
+
+    margin-top:10px;
+
+    padding:10px 14px;
+
+    cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+    <div class="logo">
+
+        CloudCore OS
+
+    </div>
+
+    <div
+    class="clock"
+    id="clock">
+
+        Loading...
+
+    </div>
+
+</div>
+
+<!-- DESKTOP -->
+
+<div
+class="desktop"
+id="desktop">
+
+    <!-- Browser -->
+
+    <div
+    class="icon"
+    onclick="openWindow('browser')">
+
+        <img
+        src="https://cdn-icons-png.flaticon.com/512/888/888879.png">
+
+        <p>
+
+            Browser
+
+        </p>
+
+    </div>
+
+    <!-- Notes -->
+
+    <div
+    class="icon"
+    onclick="openWindow('notes')">
+
+        <img
+        src="https://cdn-icons-png.flaticon.com/512/942/942748.png">
+
+        <p>
+
+            Notes
+
+        </p>
+
+    </div>
+
+    <!-- Settings -->
+
+    <div
+    class="icon"
+    onclick="openWindow('settings')">
+
+        <img
+        src="https://cdn-icons-png.flaticon.com/512/3524/3524659.png">
+
+        <p>
+
+            Settings
+
+        </p>
+
+    </div>
+
+    <!-- Store -->
+
+    <div
+    class="icon"
+    onclick="openWindow('store')">
+
+        <img
+        src="https://cdn-icons-png.flaticon.com/512/3081/3081986.png">
+
+        <p>
+
+            Store
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- BROWSER -->
+
+<div
+class="window"
+id="browser"
+
+style="
+top:120px;
+left:220px;
+">
+
+<div
+class="window-header">
+
+<span
+class="window-title">
+
+CloudCore Browser
+
+</span>
+
+<button
+class="close"
+
+onclick="
+closeWindow(
+'browser'
+)
+">
+
+</button>
+
+</div>
+
+<div
+class="window-content">
+
+<div
+class="browser-bar">
+
+<input
+
+id="browserInput"
+
+placeholder="Søg på Google">
+
+<button
+
+onclick="
+searchBrowser()
+">
+
+Go
+
+</button>
+
+</div>
+
+<iframe
+
+id="browserFrame"
+
+src="about:blank">
+
+</iframe>
+
+</div>
+
+</div>
+<!-- NOTES WINDOW -->
+
+<div
+class="window"
+id="notes"
+
+style="
+top:170px;
+left:280px;
+">
+
+<div
+class="window-header">
+
+<span
+class="window-title">
+
+Notes
+
+</span>
+
+<button
+class="close"
+
+onclick="
+closeWindow(
+'notes'
+)
+">
+
+</button>
+
+</div>
+
+<div
+class="window-content">
+
+<h2>
+
+Mine Noter
+
+</h2>
+
+<br>
+
+<textarea
+
+id="notesArea"
+
+placeholder=
+"Skriv noget...">
+
+</textarea>
+
+</div>
+
+</div>
+
+<!-- CALCULATOR WINDOW -->
+
+<div
+class="window"
+id="calculator"
+
+style="
+top:180px;
+left:330px;
+width:420px;
+">
+
+<div
+class="window-header">
+
+<span
+class="window-title">
+
+Calculator
+
+</span>
+
+<button
+class="close"
+
+onclick="
+closeWindow(
+'calculator'
+)
+">
+
+</button>
+
+</div>
+
+<div
+class="window-content">
+
+<input
+
+type="text"
+
+id="calcDisplay"
+
+class="calc-display"
+
+readonly>
+
+<div
+class="calc-grid">
+
+<button onclick="calcAdd('7')">7</button>
+<button onclick="calcAdd('8')">8</button>
+<button onclick="calcAdd('9')">9</button>
+<button onclick="calcAdd('/')">÷</button>
+
+<button onclick="calcAdd('4')">4</button>
+<button onclick="calcAdd('5')">5</button>
+<button onclick="calcAdd('6')">6</button>
+<button onclick="calcAdd('*')">×</button>
+
+<button onclick="calcAdd('1')">1</button>
+<button onclick="calcAdd('2')">2</button>
+<button onclick="calcAdd('3')">3</button>
+<button onclick="calcAdd('-')">−</button>
+
+<button onclick="calcClear()">C</button>
+<button onclick="calcAdd('0')">0</button>
+<button onclick="calcSolve()">=</button>
+<button onclick="calcAdd('+')">+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- JOURNAL WINDOW -->
+
+<div
+class="window"
+id="journal"
+
+style="
+top:200px;
+left:380px;
+">
+
+<div
+class="window-header">
+
+<span
+class="window-title">
+
+Journal
+
+</span>
+
+<button
+class="close"
+
+onclick="
+closeWindow(
+'journal'
+)
+">
+
+</button>
+
+</div>
+
+<div
+class="window-content">
+
+<h2>
+
+Min Dagbog
+
+</h2>
+
+<br>
+
+<textarea
+
+id="journalArea"
+
+placeholder=
+"Skriv dagens tanker...">
+
+</textarea>
+
+</div>
+
+</div>
+
+<!-- SETTINGS WINDOW -->
+
+<div
+class="window"
+id="settings"
+
+style="
+top:220px;
+left:340px;
+">
+
+<div
+class="window-header">
+
+<span
+class="window-title">
+
+Settings
+
+</span>
+
+<button
+class="close"
+
+onclick="
+closeWindow(
+'settings'
+)
+">
+
+</button>
+
+</div>
+
+<div
+class="window-content">
+
+<h2>
+
+Wallpapers
+
+</h2>
+
+<br>
+
+<div
+class="wallpaper-grid">
+
+<div
+class="wallpaper"
+
+onclick="
+setWallpaper(
+'https://i.postimg.cc/3yLzJyKr/Cloud-Core-1-1.jpg'
+)
+">
+
+<img
+src="https://i.postimg.cc/3yLzJyKr/Cloud-Core-1-1.jpg">
+
+<p>
+
+CloudCore
+
+</p>
+
+</div>
+
+<div
+class="wallpaper"
+
+onclick="
+setWallpaper(
+'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600'
+)
+">
+
+<img
+src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=400">
+
+<p>
+
+Nature
+
+</p>
+
+</div>
+
+<div
+class="wallpaper"
+
+onclick="
+setWallpaper(
+'https://images.unsplash.com/photo-1503264116251-35a269479413?q=80&w=1600'
+)
+">
+
+<img
+src="https://images.unsplash.com/photo-1503264116251-35a269479413?q=80&w=400">
+
+<p>
+
+Dark
+
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<h3>
+
+Upload eget billede
+
+</h3>
+
+<br>
+
+<input
+
+type="file"
+
+id="wallpaperUpload"
+
+accept="image/*">
+
+</div>
+
+</div>
+<!-- STORE WINDOW -->
+
+<div
+class="window"
+id="store"
+
+style="
+top:260px;
+left:400px;
+width:550px;
+">
+
+<div
+class="window-header">
+
+<span
+class="window-title">
+
+CloudCore Store
+
+</span>
+
+<button
+class="close"
+
+onclick="
+closeWindow(
+'store'
+)
+">
+
+</button>
+
+</div>
+
+<div
+class="window-content">
+
+<!-- CALCULATOR -->
+
+<div
+class="app-card">
+
+<h3>
+
+🧮 Calculator
+
+</h3>
+
+<p>
+
+Lommeregner med rigtige knapper.
+
+</p>
+
+<button
+
+onclick="
+installCalculator()
+">
+
+Install
+
+</button>
+
+<button
+
+onclick="
+uninstallCalculator()
+">
+
+Uninstall
+
+</button>
+
+</div>
+
+<!-- JOURNAL -->
+
+<div
+class="app-card">
+
+<h3>
+
+📔 Journal
+
+</h3>
+
+<p>
+
+Gemmer dine dagbogsnoter.
+
+</p>
+
+<button
+
+onclick="
+installJournal()
+">
+
+Install
+
+</button>
+
+<button
+
+onclick="
+uninstallJournal()
+">
+
+Uninstall
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* CLOCK */
+
+function updateClock(){
+
+let now =
+new Date();
+
+document
+.getElementById(
+"clock"
+)
+.innerText =
+
+now.toLocaleDateString()
+
++ " " +
+
+now.toLocaleTimeString();
+
+}
+
+setInterval(
+updateClock,
+1000
+);
+
+updateClock();
+
+/* WINDOWS */
+
+let biggest = 1;
+
+function openWindow(id){
+
+let win =
+document.getElementById(id);
+
+win.style.display =
+"block";
+
+biggest++;
+
+win.style.zIndex =
+biggest;
+
+}
+
+function closeWindow(id){
+
+document
+.getElementById(id)
+.style.display =
+"none";
+
+}
+
+/* APP INSTALLATION */
+
+function installCalculator(){
+
+if(
+document.getElementById(
+"calculatorIcon"
+)
+){
+return;
+}
+
+let icon =
+document.createElement(
+"div"
+);
+
+icon.className =
+"icon";
+
+icon.id =
+"calculatorIcon";
+
+icon.innerHTML =
+
+`
+
+<img
+src="https://cdn-icons-png.flaticon.com/512/2920/2920277.png">
+
+<p>
+
+Calculator
+
+</p>
+
+`;
+
+icon.onclick =
+function(){
+
+openWindow(
+"calculator"
+);
+
+};
+
+desktop.appendChild(
+icon
+);
+
+localStorage.setItem(
+"cloudcore_calc",
+"installed"
+);
+
+}
+
+function installJournal(){
+
+if(
+document.getElementById(
+"journalIcon"
+)
+){
+return;
+}
+
+let icon =
+document.createElement(
+"div"
+);
+
+icon.className =
+"icon";
+
+icon.id =
+"journalIcon";
+
+icon.innerHTML =
+
+`
+
+<img
+src="https://cdn-icons-png.flaticon.com/512/2541/2541988.png">
+
+<p>
+
+Journal
+
+</p>
+
+`;
+
+icon.onclick =
+function(){
+
+openWindow(
+"journal"
+);
+
+};
+
+desktop.appendChild(
+icon
+);
+
+localStorage.setItem(
+"cloudcore_journal",
+"installed"
+);
+
+}
+/* UNINSTALL APPS */
+
+function uninstallCalculator(){
+
+let icon =
+document.getElementById(
+"calculatorIcon"
+);
+
+if(icon){
+
+icon.remove();
+
+localStorage.removeItem(
+"cloudcore_calc"
+);
+
+}
+
+}
+
+function uninstallJournal(){
+
+let icon =
+document.getElementById(
+"journalIcon"
+);
+
+if(icon){
+
+icon.remove();
+
+localStorage.removeItem(
+"cloudcore_journal"
+);
+
+}
+
+}
+
+/* AUTO RESTORE INSTALLED APPS */
+
+if(
+
+localStorage.getItem(
+"cloudcore_calc"
+)
+
+===
+
+"installed"
+
+){
+
+installCalculator();
+
+}
+
+if(
+
+localStorage.getItem(
+"cloudcore_journal"
+)
+
+===
+
+"installed"
+
+){
+
+installJournal();
+
+}
+
+/* NOTES SAVE */
+
+const notesArea =
+
+document.getElementById(
+"notesArea"
+);
+
+if(notesArea){
+
+notesArea.value =
+
+localStorage.getItem(
+"cloudcore_notes"
+)
+
+|| "";
+
+notesArea.addEventListener(
+
+"input",
+
+function(){
+
+localStorage.setItem(
+
+"cloudcore_notes",
+
+notesArea.value
+
+);
+
+});
+
+}
+
+/* JOURNAL SAVE */
+
+const journalArea =
+
+document.getElementById(
+"journalArea"
+);
+
+if(journalArea){
+
+journalArea.value =
+
+localStorage.getItem(
+"cloudcore_journal_text"
+)
+
+|| "";
+
+journalArea.addEventListener(
+
+"input",
+
+function(){
+
+localStorage.setItem(
+
+"cloudcore_journal_text",
+
+journalArea.value
+
+);
+
+});
+
+}
+
+/* WALLPAPER SYSTEM */
+
+function setWallpaper(url){
+
+document.body.style.backgroundImage =
+
+"url('" +
+url +
+"')";
+
+localStorage.setItem(
+
+"cloudcore_wallpaper",
+
+url
+
+);
+
+}
+
+let savedWallpaper =
+
+localStorage.getItem(
+"cloudcore_wallpaper"
+);
+
+if(savedWallpaper){
+
+document.body.style.backgroundImage =
+
+"url('" +
+savedWallpaper +
+"')";
+
+}
+
+/* CUSTOM WALLPAPER */
+
+const upload =
+
+document.getElementById(
+"wallpaperUpload"
+);
+
+if(upload){
+
+upload.addEventListener(
+
+"change",
+
+function(e){
+
+let file =
+e.target.files[0];
+
+if(!file) return;
+
+let reader =
+new FileReader();
+
+reader.onload =
+
+function(event){
+
+setWallpaper(
+
+event.target.result
+
+);
+
+};
+
+reader.readAsDataURL(
+file
+);
+
+});
+
+}
+
+/* GOOGLE SEARCH */
+
+function searchBrowser(){
+
+let text =
+
+document
+.getElementById(
+"browserInput"
+)
+.value
+.trim();
+
+if(text === "")
+return;
+
+window.open(
+
+"https://www.google.com/search?q="
+
++
+
+encodeURIComponent(
+text
+),
+
+"_blank"
+
+);
+
+}
+
+/* CALCULATOR */
+
+function calcAdd(value){
+
+document
+.getElementById(
+"calcDisplay"
+)
+.value += value;
+
+}
+
+function calcClear(){
+
+document
+.getElementById(
+"calcDisplay"
+)
+.value = "";
+
+}
+
+function calcSolve(){
+
+try{
+
+document
+.getElementById(
+"calcDisplay"
+)
+.value =
+
+eval(
+
+document
+.getElementById(
+"calcDisplay"
+)
+.value
+
+);
+
+}
+
+catch{
+
+document
+.getElementById(
+"calcDisplay"
+)
+.value =
+"Error";
+
+}
+
+}
+
+/* DRAG WINDOWS */
+
+let currentWindow =
+null;
+
+let offsetX = 0;
+let offsetY = 0;
+
+document
+.querySelectorAll(
+".window"
+)
+.forEach(function(win){
+
+let header =
+
+win.querySelector(
+".window-header"
+);
+
+header.addEventListener(
+
+"mousedown",
+
+function(e){
+
+currentWindow =
+win;
+
+biggest++;
+
+win.style.zIndex =
+biggest;
+
+offsetX =
+e.clientX -
+win.offsetLeft;
+
+offsetY =
+e.clientY -
+win.offsetTop;
+
+}
+
+);
+
+});
+
+document.addEventListener(
+
+"mousemove",
+
+function(e){
+
+if(currentWindow){
+
+currentWindow.style.left =
+
+(
+e.clientX -
+offsetX
+)
+
++ "px";
+
+currentWindow.style.top =
+
+(
+e.clientY -
+offsetY
+)
+
++ "px";
+
+}
+
+}
+
+);
+
+document.addEventListener(
+
+"mouseup",
+
+function(){
+
+currentWindow =
+null;
+
+}
+
+);
+
+</script>
+
+</body>
+</html>
