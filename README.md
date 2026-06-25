@@ -1,77 +1,66 @@
 # CloudCore OS
 
-CloudCore OS is a small web project that looks like a simple computer system in the browser.
+CloudCore OS is a browser-based operating system built with HTML, CSS, and JavaScript. It recreates the experience of a desktop environment directly inside a web page while remaining lightweight and easy to customize.
 
-It is made with:
-- HTML
-- CSS
+## Features
+
+- Draggable application windows
+- Browser application
+- Notes application with auto-save
+- Journal application
+- Calculator application
+- Settings application
+- Wallpaper customization
+- Custom wallpaper uploads
+- App Store for installing applications
+- Uninstall applications
+- Local storage support
+- Modern glassmorphism design
+- Responsive desktop layout
+
+## Built With
+
+- HTML5
+- CSS3
 - JavaScript
 
----
+## How It Works
 
-## What it does :D
+CloudCore OS uses a desktop-style interface where applications open in movable windows. User data such as notes, wallpapers, and installed applications are stored locally in the browser, allowing settings and content to persist between sessions.
 
-CloudCore OS lets you:
+## Installation
 
-- Click on app icons
-- Open simple windows
-- Close windows again
-- Move around the desktop
-- See a clock in the top bar
+1. Download or clone the repository.
+2. Open `index.html` in a web browser.
+3. Enjoy CloudCore OS.
 
-It is not a real operating system, just a fun web project that acts like one :D
+## Project Goals
 
----
+The goal of CloudCore OS was to create a functional WebOS experience while learning more about:
 
-## Apps
+- Window management systems
+- Browser storage
+- User interface design
+- Dynamic application creation
+- JavaScript event handling
 
-Right now CloudCore OS has:
+## Screenshots
 
-### Journal
-A simple window with text.
+Add screenshots of your desktop here.
 
-### Notes
-A simple window where you can write or show text.
+## Future Plans
 
----
+- File manager
+- Music player
+- Themes and customization
+- Better browser support
+- More applications
+- Taskbar improvements
 
-## How to run it :D
+## Author
 
-1. Download the project files
-2. Open `index.html` in your browser
-3. Click on the icons on the desktop
-
-That's it :D
-
-No installation needed.
-
----
-
-## How it works (simple)
-
-Each app is just a hidden box (a div)
-
-When you click an icon, JavaScript shows it:
-
-- openApp() → shows the window
-- closeApp() → hides the window
+Created by CloudCore Development.
 
 ---
 
-## Future ideas
-
-If you want to improve it later, you can add:
-
-- More apps
-- Better design
-- Drag windows
-- Save notes
-- Taskbar buttons
-
----
-
-## Notes
-
-This project is made for learning how websites can behave like apps :D
-
-It is not meant to be perfect — just simple and fun
+CloudCore OS is a personal project designed to explore how much desktop-like functionality can be recreated using only standard web technologies.
